@@ -1444,7 +1444,7 @@ public class SqlDialect {
     LUCIDDB("LucidDB", "\"", NullCollation.HIGH),
     INTERBASE("Interbase", null, NullCollation.HIGH),
     PHOENIX("Phoenix", "\"", NullCollation.HIGH),
-    POSTGIS("Postgis", "\"", NullCollation.HIGH),
+    POSTGIS("PostGIS", "\"", NullCollation.HIGH),
     POSTGRESQL("PostgreSQL", "\"", NullCollation.HIGH),
     PRESTO("Presto", "\"", NullCollation.LAST),
     TRINO("Trino", "\"", NullCollation.LAST),
