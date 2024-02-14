@@ -33,6 +33,8 @@ import org.locationtech.jts.io.geojson.GeoJsonReader;
 import org.locationtech.jts.io.geojson.GeoJsonWriter;
 import org.locationtech.jts.io.gml2.GMLReader;
 import org.locationtech.jts.io.gml2.GMLWriter;
+import org.locationtech.jts.io.twkb.TWKBReader;
+import org.locationtech.jts.io.twkb.TWKBWriter;
 import org.xml.sax.SAXException;
 
 import java.io.IOException;
@@ -156,6 +158,21 @@ public class SpatialTypeUtils {
   }
 
   /**
+   * Constructs a geometry from a Tiny Well-Known binary (TWKB) representation.
+   *
+   * @param twkb a TWKB
+   * @return a geometry
+   */
+  public static Geometry fromTwkb(ByteString twkb) {
+    try {
+      TWKBReader reader = new TWKBReader();
+      return reader.read(twkb.getBytes());
+    } catch (ParseException e) {
+      throw new RuntimeException("Unable to parse TWKB");
+    }
+  }
+
+  /**
    * Constructs a geometry from an Extended Well-Known text (EWKT) representation.
    * EWKT representations are prefixed with the SRID.
    *
@@ -233,6 +250,17 @@ public class SpatialTypeUtils {
   public static ByteString asWkb(Geometry geometry) {
     int outputDimension = dimension(geometry);
     WKBWriter wkbWriter = new WKBWriter(outputDimension);
+    return new ByteString(wkbWriter.write(geometry));
+  }
+
+  /**
+   * Returns the Tiny Well-Known binary (TWKB) representation of the geometry.
+   *
+   * @param geometry a geometry
+   * @return an WKB
+   */
+  public static ByteString asTwkb(Geometry geometry) {
+    TWKBWriter wkbWriter = new TWKBWriter();
     return new ByteString(wkbWriter.write(geometry));
   }
 
